@@ -123,7 +123,7 @@ if (!empty($_GET['tname']) && !empty($_GET['tsize']) && !empty($_GET['trecv']))
     $xPos = strlen($torrentDonePercent) > 2 ? 410 : 415;
     imagettftext($img, $fontSize, 0, $xPos, 120, $blackColor, $fontfile, $torrentDonePercent . '%');
 
-
+    //now lets process the torrent clients data to an array
     $clientsArr = array ();
     for ($i = 0; isset($_GET['tc' . $i . '_ip']); $i++)
     {
@@ -146,7 +146,7 @@ if (!empty($_GET['tname']) && !empty($_GET['tsize']) && !empty($_GET['trecv']))
         //random stuff
         $receptionSpeed = $complete < 100 ? getRandomFloat(0, 200, 1) . 'kB/s' : '';
         $uploadSpeed = $complete > 3 && $torrentRcv  > 10 ? getRandomFloat(0, 50, 1) . 'kB/s' : '';
-        $requests = !empty ($receptionSpeed) ? mt_rand(1, 5) : 0 . ' | ' . !empty ($uploadSpeed) ? mt_rand(1, 5) : 0;
+        $requests = sprintf('%d | %d',!empty ($receptionSpeed) ? mt_rand(1, 5) : 0 ,!empty ($uploadSpeed) ? mt_rand(1, 5) : 0 );
         $clientsArr[] = array ('ip' => $ip, 'client' => $client, 'flags' => $flags, 'complete' => $complete,
             'download' => $receptionSpeed, 'upload' => $uploadSpeed, 'requests' => $requests);
     }
@@ -160,6 +160,7 @@ if (!empty($_GET['tname']) && !empty($_GET['tsize']) && !empty($_GET['trecv']))
     imagepng($img);
 
     imagedestroy($img);
+    die();
 }
 //check how many client inputs will be shown
 $clientNfiels = (!empty($_GET['n'])) ? intval($_GET['n'], 10) : 0;
@@ -221,6 +222,7 @@ function getRandomFloat($min, $max, $precision = 3)
         <p>Criado para demonstrar que este tipo de imagens e registos de programas podem ser facilmente falsificados.<br/>
             <b>Nota</b>: A utilização dos resultados obtidos é inteiramente da responsabilidade do utilizador em questão.</p>
         <p><a href="http://partidopiratapt.eu">Visite o site do Movimento Partido Pirata Português</a></p>
+        <p>Poderá obter o código fonte <a href="https://bitbucket.org/darthx/torrentscreengen/">aqui</a>.</p>
         <h3>Torrent</h3>
         <form action="">
 
